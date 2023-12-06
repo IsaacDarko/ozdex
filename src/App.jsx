@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './App.css';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Home, Swap, Tokens } from './pages';
 
