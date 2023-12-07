@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import {Input, Popover, Radio, Modal, message} from 'antd';
 import {ArrowDownOutlined, DownOutlined, SettingOutlined} from '@ant-design/icons';
 import tokenList from '../../tokenlist.json';
+import AuthContext from '../../contexts/AuthContext';
+import SwapContext from '../../contexts/SwapContext';
+
+
 
 
 
@@ -30,41 +35,86 @@ const Settings = () => {
 
 
 const TradeBox = () => {
+    const {address, isConnected, connect} = useContext(AuthContext);
     const [tokenOneAmount, setTokenOneAmount] = useState(null);
     const [tokenTwoAmount, setTokenTwoAmount] = useState(null);
     const [tokenOne, setTokenOne] = useState(tokenList[0]);
     const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [changeToken, setChangeToken] = useState(1);
+    const [prices, setPrices ] = useState(null);
 
     const openModal = (num) => {
         setChangeToken(num);
         setIsModalOpen(true);
     }
+    
 
-    const changeAmount = (e) => {
-        console.log(e.target.value)
-        setTokenOneAmount(e.target.value);
+    const fectchPrices = async(one, two) => {
+        const options={
+            params:{
+                addressOne:one,
+                addressTwo:two
+            }
+        }
+
+        const res = await axios.get('http://localhost:5000/tokenprice', options);
+        console.log(res.data);
+        setPrices(res.data);
     }
 
+
+    const changeAmount = (e) => {
+        const amountOne = e.target.value;
+        setTokenOneAmount(amountOne);
+        if(e.target.value && prices) setTokenTwoAmount((amountOne * prices.ratio).toFixed(2))
+        else setTokenTwoAmount(null);
+    }
+
+
+
     const switchToken = () => {
+        //wipe all price and amount related state
+        setPrices(null);
+        setTokenOneAmount(null);
+        setTokenTwoAmount(null);
+        //switch token inputs in the tradebox
         const one = tokenOne;
         const two = tokenTwo;
         setTokenOne(two);
         setTokenTwo(one);
+        //fetch reversed prices and ratio
+        fectchPrices(two.address, one.address);
     }
 
+
+
     const modifyToken = (index) => {
-        if ( changeToken === 1 ) setTokenOne(tokenList[index]);
-        else setTokenTwo(tokenList[index]);
+        setPrices(null);
+        setTokenOneAmount(null);
+        setTokenTwoAmount(null);
+
+        if(changeToken === 1){
+            setTokenOne(tokenList[index]);
+            fectchPrices(tokenList[index].address, tokenTwo.address)
+        }
+        else{
+            setTokenTwo(tokenList[index]);
+            fectchPrices(tokenOne.address, tokenList[index].address)
+        }
         setIsModalOpen(false);
     }
 
 
 
+    useEffect(() => {
+        fectchPrices(tokenList[0].address, tokenList[1].address);
+    },[])
+
+
 
     return (
-        <>
+        <div className='w-[100%] h-[100%]'>
             <Modal
             open={isModalOpen}
             title='Select a token'
@@ -114,7 +164,7 @@ const TradeBox = () => {
 
 
                 <div id='tradebox-body' className='inputs'>
-                    <Input placeholder='0' value={tokenOneAmount} onChange={changeAmount}/>
+                    <Input placeholder='0' value={tokenOneAmount} onChange={changeAmount} disabled={!prices}/>
                     <Input placeholder='0' value={tokenTwoAmount} disabled={true}/>
 
                     <div className='switchButton mx-16' onClick={switchToken} >
@@ -133,9 +183,9 @@ const TradeBox = () => {
                     </div>
                 </div>
 
-                <div className='swapButton h-[10rem]' disabled={!tokenOneAmount}>Swap</div>
+                <div className='swapButton h-[4rem]' disabled={!tokenOneAmount || !isConnected} onClick={() => fectchPrices()}>Swap</div>
             </div>
-        </>
+        </div>
     )
 }
 

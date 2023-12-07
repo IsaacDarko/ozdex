@@ -23,6 +23,12 @@
   
 }
 
+.app__container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
 .gradient-bg-welcome {
   background-color: #0f0e13;
   background-image:

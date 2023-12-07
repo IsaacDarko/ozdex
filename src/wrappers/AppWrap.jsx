@@ -5,11 +5,11 @@ import { MainNav } from '../components/navigation';
 const AppWrap = (Component, idName, classNames) => function HOC() {
 
     return (
-        <div id={idName} className={`appContainer ${classNames} max-h-100vh max-w-100vw`}>
-            <div className=''>
-                <MainNav />
+        <div id={idName} className={`appContainer ${classNames} h-[100vh]`}>
+            <div className=' sticky w-[100%] z-10'>
+                <MainNav origin={idName}/>
             </div>
-            <div className=' overflow-hidden'>
+            <div className='absolute w-[100%] h-[89.5%]'>
                 <Component />
             </div>
         </div>
