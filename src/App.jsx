@@ -3,6 +3,7 @@ import './App.css';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Home, Swap, Tokens } from './pages';
 import { AuthProvider } from './contexts/AuthContext';
+import { SwapProvider } from './contexts/SwapContext';
 
 
 
@@ -13,15 +14,17 @@ function App() {
   return (
     <div className='w-[100vw] h-[100vh] bg-gradient-to-tr from-black via-slate-900 to-[#8e0f79]'>
       <AuthProvider>
-        <Routes>
+        <SwapProvider>
+          <Routes>
 
-          <Route path='/' element={ <Home /> } />
+            <Route path='/' element={ <Home /> } />
 
-          <Route path="/swap" element={ <Swap /> }  />
+            <Route path="/swap" element={ <Swap /> }  />
 
-          <Route path="/tokens" element={ <Tokens /> } />
+            <Route path="/tokens" element={ <Tokens /> } />
 
-        </Routes>
+          </Routes>
+        </SwapProvider>
       </AuthProvider>
     </div>
   )

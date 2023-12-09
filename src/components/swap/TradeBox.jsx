@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import { usePrepareSendTransaction, useSendTransaction, useWaitForTransaction } from 'wagmi';
 import {Input, Popover, Radio, Modal, message} from 'antd';
 import {ArrowDownOutlined, DownOutlined, SettingOutlined} from '@ant-design/icons';
 import tokenList from '../../tokenlist.json';
@@ -36,82 +36,56 @@ const Settings = () => {
 
 const TradeBox = () => {
     const {address, isConnected, connect} = useContext(AuthContext);
-    const [tokenOneAmount, setTokenOneAmount] = useState(null);
-    const [tokenTwoAmount, setTokenTwoAmount] = useState(null);
-    const [tokenOne, setTokenOne] = useState(tokenList[0]);
-    const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [changeToken, setChangeToken] = useState(1);
-    const [prices, setPrices ] = useState(null);
+    const {
+            openModal,
+            isModalOpen, 
+            setIsModalOpen, 
+            modifyToken, 
+            tokenOneAmount, 
+            changeAmount, 
+            tokenTwoAmount, 
+            prices, 
+            fectchPrices, 
+            switchToken,
+            tokenOne,
+            tokenTwo,
+            txDeets,
+            configReady,
+            fetchDexSwap
+        } = useContext(SwapContext);
 
-    const openModal = (num) => {
-        setChangeToken(num);
-        setIsModalOpen(true);
-    }
+//
+
+    const {config, error} = usePrepareSendTransaction({       
+        to: txDeets.to,
+        account: String(address),
+        data: String(txDeets.data),
+        value: String(txDeets.value),
+        onError(error) {
+            console.log('Error', error)
+        },
+    });
+
+//
+
+    const { sendTransaction } = useSendTransaction({config});
+
+
     
-
-    const fectchPrices = async(one, two) => {
-        const options={
-            params:{
-                addressOne:one,
-                addressTwo:two
-            }
-        }
-
-        const res = await axios.get('http://localhost:5000/tokenprice', options);
-        console.log(res.data);
-        setPrices(res.data);
-    }
-
-
-    const changeAmount = (e) => {
-        const amountOne = e.target.value;
-        setTokenOneAmount(amountOne);
-        if(e.target.value && prices) setTokenTwoAmount((amountOne * prices.ratio).toFixed(2))
-        else setTokenTwoAmount(null);
-    }
-
-
-
-    const switchToken = () => {
-        //wipe all price and amount related state
-        setPrices(null);
-        setTokenOneAmount(null);
-        setTokenTwoAmount(null);
-        //switch token inputs in the tradebox
-        const one = tokenOne;
-        const two = tokenTwo;
-        setTokenOne(two);
-        setTokenTwo(one);
-        //fetch reversed prices and ratio
-        fectchPrices(two.address, one.address);
-    }
-
-
-
-    const modifyToken = (index) => {
-        setPrices(null);
-        setTokenOneAmount(null);
-        setTokenTwoAmount(null);
-
-        if(changeToken === 1){
-            setTokenOne(tokenList[index]);
-            fectchPrices(tokenList[index].address, tokenTwo.address)
-        }
-        else{
-            setTokenTwo(tokenList[index]);
-            fectchPrices(tokenOne.address, tokenList[index].address)
-        }
-        setIsModalOpen(false);
-    }
-
+    useEffect(() => {
+        fectchPrices(tokenList[0].address, tokenList[1].address);
+    },[]);
 
 
     useEffect(() => {
-        fectchPrices(tokenList[0].address, tokenList[1].address);
-    },[])
+        console.log(txDeets.to);
+        if(txDeets.to && isConnected){
+            if(!sendTransaction) console.log('sendTransaction is not ready');
+            else sendTransaction(config);
+        }
+    },[configReady, sendTransaction]);
 
-
+    
 
     return (
         <div className='w-[100%] h-[100%]'>
@@ -183,10 +157,10 @@ const TradeBox = () => {
                     </div>
                 </div>
 
-                <div className='swapButton h-[4rem]' disabled={!tokenOneAmount || !isConnected} onClick={() => fectchPrices()}>Swap</div>
+                <div className='swapButton h-[4rem]' disabled={!tokenOneAmount || !isConnected} onClick={() => fetchDexSwap(address)}>Swap</div>
             </div>
         </div>
     )
 }
 
-export default TradeBox
+export default TradeBox;
