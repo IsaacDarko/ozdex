@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { SiEthereum } from 'react-icons/si';
 import { BsInfoCircle } from 'react-icons/bs';
-import { shortenAddress } from '../../utils/shortenAddress';
+import { motion } from 'framer-motion';
 import AuthContext from '../../contexts/AuthContext';
 
 
@@ -22,9 +22,26 @@ const Hero = () => {
         <div className='flex w-[100%] h-[40rem] justify-center item-center'>
             <div className='flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4'>
                 
-                <div className='flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10'>
+                <motion.div 
+                    initial={{y: -400}}
+                    animate={{y: 0}}
+                    transition={{
+                        delay: 1.1,
+                        type: 'spring',
+                        stiffness: 150
+                    }}
+                    className='flex flex-col flex-1 items-center justify-start w-full mf:mt-0 mt-10'
+                >
                     {/* Etherum Card Code */}
-                    <div className='p-3 justify-end items-start flex-col rounded-xl h-40 sm:w-72 w-full my-5 eth-card white-glassmorphism'>
+                    <motion.div
+                       
+                        whileHover={{
+                            scale: 1.2,
+                            textShadow: '0px 0px 8px #fff',
+                            boxShadow: '0px 0px 8px #fff'
+                        }}
+                        className='p-3 justify-end items-start flex-col rounded-xl h-40 sm:w-72 w-full my-5 eth-card white-glassmorphism cursor-pointer'
+                    >
                         <div className='flex justify-between flex-col w-full h-full'>
                             <div className='flex justify-between items-start'>
                                 <div className='w-10 h-10 rounded-full border-2 border-white flex justify-center items-center'>
@@ -42,8 +59,8 @@ const Hero = () => {
                                 </p>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
 
 
                 <div className='flex flex-1 justify-start flex-col mf:mr-10 text-center'>

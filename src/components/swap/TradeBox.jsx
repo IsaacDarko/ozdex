@@ -1,21 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { usePrepareSendTransaction, useSendTransaction, useWaitForTransaction } from 'wagmi';
-import {Input, Popover, Radio, Modal, message} from 'antd';
-import {ArrowDownOutlined, DownOutlined, SettingOutlined} from '@ant-design/icons';
+import { Input, Popover, Radio, Modal, message } from 'antd';
+import { ArrowDownOutlined, DownOutlined, SettingOutlined } from '@ant-design/icons';
 import tokenList from '../../tokenlist.json';
 import AuthContext from '../../contexts/AuthContext';
 import SwapContext from '../../contexts/SwapContext';
 
 
 
-
-
 const Settings = () => {
-    const [slippage, setSlippage] = useState(2.5);
-
-    const handleSlippageChange = (e) =>{
-        setSlippage(e.target.value);
-    }
+    const {slippage, handleSlippageChange} = useContext(SwapContext);
 
     return (
         <div className='text-[#fff] mx-2 my-4'>
@@ -34,8 +28,10 @@ const Settings = () => {
 
 
 
+
 const TradeBox = () => {
     const {address, isConnected, connect} = useContext(AuthContext);
+    const {messageApi, contextHolder} = message.useMessage();
     const {
             openModal,
             isModalOpen, 
@@ -54,7 +50,7 @@ const TradeBox = () => {
             fetchDexSwap
         } = useContext(SwapContext);
 
-//
+
 
     const {config, error} = usePrepareSendTransaction({       
         to: txDeets.to,
@@ -66,12 +62,18 @@ const TradeBox = () => {
         },
     });
 
-//
-
-    const { sendTransaction } = useSendTransaction({config});
-
 
     
+    const { data, sendTransaction } = useSendTransaction({config});
+
+
+
+    const {isLoading, isSuccess} = useWaitForTransaction({
+        hash: data?.hash
+    });
+
+
+
     useEffect(() => {
         fectchPrices(tokenList[0].address, tokenList[1].address);
     },[]);
@@ -85,10 +87,41 @@ const TradeBox = () => {
         }
     },[configReady, sendTransaction]);
 
+
+    useEffect(() => {
+        message.destroy();
+        if(isLoading){
+            messageApi.open({
+                type:'loading',
+                content: 'Transaction is pending...',
+                duration: 0
+            })
+        }
+    },[isLoading]);
+
+
+    useEffect(() => {
+        message.destroy();
+        if(isSuccess){
+            messageApi.open({
+                type: 'success',
+                content: 'Transaction successful',
+                duration: 1.50
+            })
+        }else if(txDeets.to){
+            messageApi.open({
+                type: 'error',
+                content: 'Transaction failed',
+                duration: 1.50
+            })
+        }
+
+    },[isSuccess]);
     
 
     return (
         <div className='w-[100%] h-[100%]'>
+            {contextHolder}
             <Modal
             open={isModalOpen}
             title='Select a token'
@@ -137,11 +170,11 @@ const TradeBox = () => {
                 </div>
 
 
-                <div id='tradebox-body' className='inputs'>
+                <div id='tradebox-body' className='inputs flex flex-col'>
                     <Input placeholder='0' value={tokenOneAmount} onChange={changeAmount} disabled={!prices}/>
                     <Input placeholder='0' value={tokenTwoAmount} disabled={true}/>
 
-                    <div className='switchButton mx-16' onClick={switchToken} >
+                    <div className='switchButton' onClick={switchToken} >
                         <ArrowDownOutlined className='switchArrow' />
                     </div>
 

@@ -1,0 +1,44 @@
+[
+    {
+        "chain_name":"Ethereum Mainnet",
+        "chain_id":"1",
+        "chain_hex":"0x1",
+        "chain_type":"Mainnet",
+        "chain_icon":"https://ethereum.org/static/5022dfe8d23b106be4d3d2b021accd46/8cb4c/eth-diamond-black-gray.png"
+    }, 
+    {
+        "chain_name":"Polygon Mainnet",
+        "chain_id":"137",
+        "chain_hex":"0x89",
+        "chain_type":"Mainnet",
+        "chain_icon":"https://altcoinsbox.com/wp-content/uploads/2023/03/matic-logo.webp"
+    }, 
+    {
+        "chain_name":"Avalanche C-Chain",
+        "chain_id":"43114",
+        "chain_hex":"0xa86a",
+        "chain_type":"Mainnet",
+        "chain_icon":"https://w7.pngwing.com/pngs/269/299/png-transparent-avax-altcoin-avalanche-cryptocoin-exchange-crypto-blockchain-cryptocurrency-logo-glyph-icon.png"
+    }, 
+    {
+        "chain_name":"Fantom",
+        "chain_id":"250",
+        "chain_hex":"0xfa",
+        "chain_type":"Mainnet",
+        "chain_icon":"https://res.cloudinary.com/teepublic/image/private/s--U8OoKF5q--/t_Resized%20Artwork/c_fit,g_north_west,h_1054,w_1054/co_ffffff,e_outline:53/co_ffffff,e_outline:inner_fill:53/co_bbbbbb,e_outline:3:1000/c_mpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_90,w_630/v1639264973/production/designs/26259408_0.jpg"
+    }, 
+    {
+        "chain_name":"Arbitrum",
+        "chain_id":"42161",
+        "chain_hex":"0xa4b1",
+        "chain_type":"Mainnet",
+        "chain_icon":"https://altcoinsbox.com/wp-content/uploads/2023/03/arbitrum-logo.png"
+    }, 
+    {
+        "chain_name":"Gnosis",
+        "chain_id":"100",
+        "chain_hex":"0x64",
+        "chain_type":"Mainnet",
+        "chain_icon":"https://altcoinsbox.com/wp-content/uploads/2023/03/gnosis-logo.png"
+    }
+]

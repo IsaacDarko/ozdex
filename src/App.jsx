@@ -12,7 +12,7 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <div className='w-[100vw] h-[100vh] bg-gradient-to-tr from-black via-slate-900 to-[#8e0f79]'>
+    <div className='w-[100vw] h-[100vh] '>
       <AuthProvider>
         <SwapProvider>
           <Routes>

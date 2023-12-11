@@ -8,6 +8,7 @@ const AuthContext = createContext();
 
 
 export function AuthProvider({children}){
+    const [chain, setChain] = useState({});
     const { address, isConnected } = useAccount();
     const { connect } = useConnect({
         connector: new MetaMaskConnector()
@@ -16,6 +17,7 @@ export function AuthProvider({children}){
     return (
 
         <AuthContext.Provider value={{
+            chain, setChain,
             address, isConnected, connect
         }}>
             {children}            

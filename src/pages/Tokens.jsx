@@ -1,12 +1,21 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import AppWrap from '../wrappers/AppWrap';
+
 
 const Tokens = () => {
 
     return (
-        <div>
+        <motion.div 
+        initial={{x: '100vw'}}
+        animate={{x: 0}}
+        transition={{
+            type: 'spring'
+        }}
+        className='flex flex-row w-[100%] h-[100%] bg-gradient-to-b from-[#fff] to-[#0a437a]'>
             Tokens
-        </div>
+        </motion.div>
     )
 }
 
-export default Tokens
+export default AppWrap(Tokens, 'tokens');

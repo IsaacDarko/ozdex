@@ -12,6 +12,7 @@ export function SwapProvider({children}) {
     const [tokenTwoAmount, setTokenTwoAmount] = useState(null);
     const [tokenOne, setTokenOne] = useState(tokenList[0]);
     const [tokenTwo, setTokenTwo] = useState(tokenList[1]);
+    const [slippage, setSlippage] = useState(2.5);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [changeToken, setChangeToken] = useState(1);
     const [prices, setPrices ] = useState(null);
@@ -21,6 +22,11 @@ export function SwapProvider({children}) {
     const openModal = (num) => {
         setChangeToken(num);
         setIsModalOpen(true);
+    }
+
+
+    const handleSlippageChange = (e) =>{
+        setSlippage(e.target.value);
     }
     
 
@@ -88,9 +94,20 @@ export function SwapProvider({children}) {
                 walletAddress: addy
             }
         }
+
+        const txconfig = {
+            params:{
+                src:tokenOne.address,
+                dst:tokenTwo.address,
+                amount:tokenOneAmount.padEnd(tokenOne.decimals+tokenOneAmount, '0'),
+                from:addy,
+                slippage:slippage
+            }
+        }
+
         const allowance = await axios.get(`/api/dex/check`, options);
         console.log(allowance.data);
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        await new Promise(resolve => setTimeout(resolve, 600))
 
         if(allowance.data.allowance === '0'){
             console.log('not approve, sending you a request to approve on metamask');
@@ -102,7 +119,11 @@ export function SwapProvider({children}) {
             return
         }
 
-        console.log('you can now make swaps')
+        const txn = await axios.get(`/api/dex/swap`, txconfig);
+        console.log(txn.data);
+        let decimals = Number(`1E${tokenTwo.decimals}`);
+        setTokenTwoAmount((Number(tx.data.toTokenAmount)/decimals).toFixed(2));
+        setTxDeets(tx.data.tx);
     }
 
 
@@ -121,6 +142,7 @@ export function SwapProvider({children}) {
             //swap feature functions
             openModal, fectchPrices, changeAmount, 
             switchToken, modifyToken, fetchDexSwap,
+            slippage, setSlippage, handleSlippageChange
         }}>
             {children}
         </SwapContext.Provider>
