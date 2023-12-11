@@ -40,7 +40,7 @@ const Hero = () => {
                             textShadow: '0px 0px 8px #fff',
                             boxShadow: '0px 0px 8px #fff'
                         }}
-                        className='p-3 justify-end items-start flex-col rounded-xl h-40 sm:w-72 w-full my-5 eth-card white-glassmorphism cursor-pointer'
+                        className='p-3 justify-end items-start flex-col rounded-xl h-40 sm:w-[19rem] w-full my-5 eth-card white-glassmorphism cursor-pointer'
                     >
                         <div className='flex justify-between flex-col w-full h-full'>
                             <div className='flex justify-between items-start'>

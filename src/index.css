@@ -98,7 +98,7 @@
 }
 
 .ant-popover-inner {
-  min-width: 360px !important;
+  min-width: 320px !important;
   min-height: 100px !important;
   border: 1px solid #5d6371;
   padding: 0;

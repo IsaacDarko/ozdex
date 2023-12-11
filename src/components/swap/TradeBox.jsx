@@ -120,7 +120,7 @@ const TradeBox = () => {
     
 
     return (
-        <div className='w-[100%] h-[100%]'>
+        <div className='flex w-[100%] h-[100%] mx-auto my-auto'>
             {contextHolder}
             <Modal
             open={isModalOpen}
@@ -149,19 +149,19 @@ const TradeBox = () => {
                 </div>
             </Modal>
 
-            <div className='flex flex-col w-[70%] h-[60%] mx-auto my-auto px-4 bg-[#0e1524] border border-[#fff] rounded-3xl text-slate-100'>
+            <div className='flex flex-col 2xs:w-[100%] lg:w-[70%] h-[70%] mx-auto my-auto px-4 bg-[#0e1524] border border-[#fff] rounded-3xl text-slate-100'>
                 <div id='tradebox-header' className='flex flex-row px-8 py-8 w-[100%]'>
                     <div className='flex flex-row w-[50%]'>
                         <span className=' font-montserrat font-semibold text-base'>Swap</span>
                     </div>
                     <div className='flex flex-row-reverse w-[50%]'>
-                        <span>
+                        <span className=' text-[1.1rem]'>
                             <Popover
                             title='Settings'
                             trigger='click'
                             placement='bottomRight'
                             content={<Settings />}
-                            color='#0e1524'
+                            color='#2e2e2e'
                             >
                                 <SettingOutlined className='' />
                             </Popover>
@@ -174,8 +174,8 @@ const TradeBox = () => {
                     <Input placeholder='0' value={tokenOneAmount} onChange={changeAmount} disabled={!prices}/>
                     <Input placeholder='0' value={tokenTwoAmount} disabled={true}/>
 
-                    <div className='switchButton' onClick={switchToken} >
-                        <ArrowDownOutlined className='switchArrow' />
+                    <div className='switchButton 2xs:ml-[-1rem] md:mx-[4rem] xl:mx-[1rem] 2xl:mx-[2rem] 3xl:mx-[4rem]' onClick={switchToken} >
+                        <ArrowDownOutlined className='switchArrow ' />
                     </div>
 
                     <div className='assetOne' onClick={() => openModal(1)}>

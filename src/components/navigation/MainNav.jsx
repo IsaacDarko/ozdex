@@ -38,7 +38,7 @@ const NavLinks = ({origin}) => {
             href={location} 
             className={origin === 'home' ? 
             'font-montserrat font-semibold text-lg mx-4 capitalize' 
-            :'font-montserrat font-semibold text-[rgba(15,32,42)] text-lg mx-4 capitalize'}
+            :'font-montserrat font-semibold text-[#162439] text-lg mx-4 capitalize'}
             onClick={() => skeet(link)}
             hidden={link === origin}
             >
@@ -134,13 +134,13 @@ const MainNav = ({origin}) => {
                 </span>
             </div>
 
-            <div className='flex flex-row w-[50%]'>
+            <div className='flex flex-row md:w-[30%] lg:w-[50%]'>
                 <motion.span className='my-auto'>
                     <NavLinks origin={origin} />
                 </motion.span>
             </div>
 
-            <div className='flex flex-row w-[30%]'>                
+            <div className='flex flex-row md:w-[50%] lg:w-[30%]'>                
                 <div className='flex flex-row-reverse  w-[50%]'>
                     {isConnected ? (
                         <motion.span>
