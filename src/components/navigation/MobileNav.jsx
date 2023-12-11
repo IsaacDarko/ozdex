@@ -8,13 +8,14 @@ import { ozstar } from '../../assets/icons';
 
 
 
-const DropMenu = ({setToggleMenu}) => {
+const DropMenu = ({setToggleMenu, origin}) => {
     const navLinks = ['home', 'swap', 'tokens'];
     const navigate = useNavigate();
 
-    const navigo =(link) =>{
-        setToggleMenu(false);
-        navigate(`/${link}`, {replace:false});
+    const skeet = (link) => {
+        console.log(link);
+        if(link === 'home') navigate('/', {replace:true});
+        else navigate(`/${link}`, {replace:true});
     }
  
     return(
@@ -22,9 +23,13 @@ const DropMenu = ({setToggleMenu}) => {
             <ul className=''>
                 {navLinks.map((link) => (
                     <li key={link} 
-                    className={'font-montserrat text-base my-6 capitalize cursor-pointer'}
+                    className={ 
+                     origin === 'home' ? 'font-montserrat text-base my-6 capitalize hover:bg-[#0f172a41] hover:backdrop-blur hover:cursor-pointer'
+                    :origin === 'swap' ? 'font-montserrat text-base my-6 capitalize hover:bg-[#ffa7d441] hover:backdrop-blur hover:cursor-pointer ' 
+                    :'font-montserrat text-base my-6 capitalize hover:bg-[#4ddbfe20] hover:backdrop-blur hover:cursor-pointer'}
+                    onClick={() => skeet(link)}
                     >
-                        <a href={link === 'home' ? `/` : `/${link}`}>{link}</a>
+                        {link}
                     </li>
                 ))}
             </ul>
@@ -39,7 +44,15 @@ const DropMenu = ({setToggleMenu}) => {
 const MobileNav = ({origin}) => {
     const [toggleMenu, setToggleMenu] = useState(false);
     const {address, isConnected, connect} = useContext(AuthContext);
+    const navigate = useNavigate();
     console.log(origin);
+
+
+    const skeet = (link) => {
+        console.log(link);
+        if(link === 'home') navigate('/', {replace:true});
+        else navigate(`/${link}`, {replace:true});
+    }
 
 
     useEffect(() => {
@@ -84,7 +97,7 @@ const MobileNav = ({origin}) => {
 
             <div id='topbar' className='flex flex-row w-[100%] py-5'>
                 <div className='flex flex-row w-[50%] px-2'>
-                    <span className='my-auto'>
+                    <span className='my-auto'  onClick={() => skeet('home')}>
                         <img src={ozstar} alt="site-logo" className='w-12'/>
                     </span>
                 </div>

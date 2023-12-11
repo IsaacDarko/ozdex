@@ -109,8 +109,15 @@ const WalletDetailsPanel = () => {
 
 
 const MainNav = ({origin}) => {
-    const {address, isConnected, connect} = useContext(AuthContext)
+    const {address, isConnected, connect} = useContext(AuthContext);
+    const navigate = useNavigate();
     console.log(origin);
+
+    const skeet = (link) => {
+        console.log(link);
+        if(link === 'home') navigate('/', {replace:true});
+        else navigate(`/${link}`, {replace:true});
+    }
 
     useEffect(() => {
 
@@ -129,7 +136,7 @@ const MainNav = ({origin}) => {
         }>
 
             <div className='flex flex-row w-[20%]'>
-                <span className=''>
+                <span className='' onClick={() => skeet('home')}>
                     <img src={ozstar} alt="site-logo" className='h-12' />
                 </span>
             </div>
