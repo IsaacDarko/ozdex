@@ -87,6 +87,13 @@ export function SwapProvider({children}) {
 
 
 
+    const padTokenAmount = (amount, decimals) => {
+        const decimalPlaces = Math.pow(10, decimals);
+        return (amount * decimalPlaces).toFixed(0);
+    };
+
+
+
     const fetchDexSwap = async(addy) => {
         const options ={
             params:{
@@ -99,7 +106,7 @@ export function SwapProvider({children}) {
             params:{
                 src:tokenOne.address,
                 dst:tokenTwo.address,
-                amount:tokenOneAmount.padEnd(tokenOne.decimals+tokenOneAmount, '0'),
+                amount: padTokenAmount(tokenOneAmount, tokenOne.decimals),
                 from:addy,
                 slippage:slippage
             }
@@ -107,7 +114,7 @@ export function SwapProvider({children}) {
 
         const allowance = await axios.get(`/api/dex/check`, options);
         console.log(allowance.data);
-        await new Promise(resolve => setTimeout(resolve, 600))
+        await new Promise(resolve => setTimeout(resolve, 1600))
 
         if(allowance.data.allowance === '0'){
             console.log('not approve, sending you a request to approve on metamask');

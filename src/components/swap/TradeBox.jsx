@@ -171,8 +171,8 @@ const TradeBox = () => {
 
 
                 <div id='tradebox-body' className='inputs flex flex-col'>
-                    <Input placeholder='0' value={tokenOneAmount} onChange={changeAmount} disabled={!prices}/>
-                    <Input placeholder='0' value={tokenTwoAmount} disabled={true}/>
+                    <Input type='number' placeholder='0' value={tokenOneAmount} onChange={changeAmount} disabled={!prices} className='no-spinner'/>
+                    <Input type='number' placeholder='0' value={tokenTwoAmount} disabled={true} className='no-spinner'/>
 
                     <div className='switchButton 2xs:ml-[-1rem] md:mx-[4rem] xl:mx-[1rem] 2xl:mx-[2rem] 3xl:mx-[4rem]' onClick={switchToken} >
                         <ArrowDownOutlined className='switchArrow ' />

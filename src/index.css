@@ -166,3 +166,8 @@
 .ant-modal-close-icon:hover {
   color: white !important;
 }
+
+.no-spinner {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield;
+}

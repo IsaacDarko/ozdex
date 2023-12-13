@@ -25,7 +25,7 @@ const Swap = () => {
                 delay: 1,
                 duration: 1
             }}
-            className='flex flex-row 2xs:w-[100%] 2xs:h-[80%] xs:h-[80%] md:w-[70%] md:h-[60%] lg:w-[50%] lg:h-[60%] xl:h-[78%] 2xl:h-[82%] 2xs:my-auto md:mx-auto md:my-auto lg:mx-auto lg:my-auto xl:mx-auto xl:my-auto 2xl:mx-auto 2xl:my-auto 3xl:mx-auto 3xl:my-auto'>
+            className='flex flex-row 2xs:w-[100%] 2xs:h-[80%] xs:h-[70%] sm:h-[70%] md:w-[70%] md:h-[60%] lg:w-[50%] lg:h-[73%] xl:h-[78%] 2xl:h-[82%] 2xs:my-auto md:mx-auto md:my-auto lg:mx-auto lg:my-auto xl:mx-auto xl:my-auto 2xl:mx-auto 2xl:my-auto 3xl:mx-auto 3xl:my-auto'>
                 <TradeBox />
             </motion.div>
         </motion.div>
